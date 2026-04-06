@@ -182,7 +182,9 @@ def fetch_with_retry(
 
     for attempt in range(max_retries):
         try:
-            response = httpx.get(url, proxy=proxy) if proxy else httpx.get(url)
+            response = (
+                httpx.get(url, proxy=proxy, follow_redirects=True) if proxy else httpx.get(url, follow_redirects=True)
+            )
             response.raise_for_status()
             return response
         except httpx.RequestError as e:
